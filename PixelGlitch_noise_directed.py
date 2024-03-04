@@ -25,14 +25,14 @@ img = pygame.Surface((display_width, display_height))
 img.blit(src, (0, 0))
 
 # Distortion parameters
-distortion_amount = 10  # You can adjust this value to control the amount of distortion
+distortion_amount = 70  # You can adjust this value to control the amount of distortion
 distortion_direction = -1  # 1 for ascending order, -1 for descending order
 
 # Convert the surface to a NumPy array
 pixels = pygame.surfarray.array3d(img)
 
 # Apply the pixel sort
-sorted_pixels = np.sort(pixels, axis=0)[::distortion_direction]  # Apply distortion direction
+sorted_pixels = np.sort(pixels, axis=2)[::distortion_direction]  # Apply distortion direction
 
 # Explicitly cast the array to int32 before distortion
 sorted_pixels = sorted_pixels.astype(np.int32)
