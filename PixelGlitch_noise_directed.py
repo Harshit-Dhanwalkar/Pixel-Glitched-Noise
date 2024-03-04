@@ -5,22 +5,28 @@ import sys
 # Initialize Pygame
 pygame.init()
 
-# Load the image
+# Load the input image
 filename = 'golden-bengal-cat-black-wall.jpg'
 src = pygame.image.load(filename)
 
-# Get the width and height of the image
-width, height = src.get_size()
+# Get the original width and height of the image
+original_width, original_height = src.get_size()
 
-# Create a new surface with the same size as the image
-img = pygame.Surface((width, height))
+# Set the desired display width and height
+display_width, display_height = 400, 300  # Adjust these values as needed
 
-# Copy the image to the new surface
+# Resize the input image
+src = pygame.transform.scale(src, (display_width, display_height))
+
+# Create a new surface with the same size as the resized input image
+img = pygame.Surface((display_width, display_height))
+
+# Copy the resized input image to the new surface
 img.blit(src, (0, 0))
 
 # Distortion parameters
-distortion_amount = 7  # You can adjust this value to control the amount of distortion
-distortion_direction = 1  # 1 for ascending order, -1 for descending order
+distortion_amount = 10  # You can adjust this value to control the amount of distortion
+distortion_direction = -1  # 1 for ascending order, -1 for descending order
 
 # Convert the surface to a NumPy array
 pixels = pygame.surfarray.array3d(img)
@@ -41,9 +47,10 @@ sorted_pixels = np.clip(sorted_pixels, 0, 255).astype(np.uint8)
 # Convert the sorted pixels back to a surface
 sorted_img = pygame.surfarray.make_surface(sorted_pixels)
 
-# Display the sorted image
-window = pygame.display.set_mode((width, height))
-window.blit(sorted_img, (0, 0))
+# Display the resized input and output images
+window = pygame.display.set_mode((display_width * 2, display_height))
+window.blit(src, (0, 0))
+window.blit(sorted_img, (display_width, 0))
 pygame.display.flip()
 
 # Wait for the user to close the window
